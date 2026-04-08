@@ -51,13 +51,21 @@ export function MainLayout() {
       <footer className={styles.footer}>
         <p>OpenHammer Database • Data from Warhammer 40K 10th Edition</p>
         <div className={styles['footer-links']}>
-          <a href="https://github.com" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://github.com/ProCodeZero/hammer-front"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             GitHub
           </a>
           <a href="https://www.warhammer-community.com" target="_blank" rel="noopener noreferrer">
             Warhammer Community
           </a>
-          <a href="/docs" target="_blank" rel="noopener noreferrer">
+          <a
+            href="https://openhammer-api-1.onrender.com/docs#/"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             API Docs
           </a>
         </div>
