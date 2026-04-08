@@ -12,7 +12,6 @@ interface GlobalStats {
   factions_by_type: Record<string, number>;
   units_by_faction_type: Record<string, number>;
 }
-
 interface FactionStat {
   name: string;
   faction_type: string;
@@ -21,19 +20,11 @@ interface FactionStat {
   avg_toughness: number;
   avg_wounds: number;
 }
-
-interface WeaponStats {
-  total_weapon_entries: number;
-  ranged: { count: number; avg_damage: number };
-  melee: { count: number; avg_damage: number };
-  highest_damage?: string[];
-  most_common?: string[];
-}
+// WeaponStats interface removed
 
 export function Stats() {
   const [globalStats, setGlobalStats] = useState<GlobalStats | null>(null);
   const [factionStats, setFactionStats] = useState<FactionStat[]>([]);
-  const [weaponStats, setWeaponStats] = useState<WeaponStats | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -41,14 +32,12 @@ export function Stats() {
     const fetchData = async () => {
       try {
         setLoading(true);
-        const [globalRes, factionsRes, weaponsRes] = await Promise.all([
+        const [globalRes, factionsRes] = await Promise.all([
           axios.get<GlobalStats>(`${API_BASE_URL}${ENDPOINTS.STATS}`),
           axios.get<FactionSummary[]>(`${API_BASE_URL}${ENDPOINTS.FACTIONS}`),
-          axios.get<WeaponStats>(`${API_BASE_URL}${ENDPOINTS.WEAPONS_STATS}`),
         ]);
 
         setGlobalStats(globalRes.data);
-        setWeaponStats(weaponsRes.data);
 
         // Fetch detailed stats for each faction
         const factionDetails = await Promise.all(
@@ -75,7 +64,6 @@ export function Stats() {
             }
           }),
         );
-
         setFactionStats(factionDetails.sort((a, b) => b.unit_count - a.unit_count));
       } catch (err) {
         setError('Failed to load statistics');
@@ -84,14 +72,12 @@ export function Stats() {
         setLoading(false);
       }
     };
-
     fetchData();
   }, []);
 
   if (loading) {
     return <div className={styles.loading}>Loading statistics...</div>;
   }
-
   if (error) {
     return <div className={styles.error}>Error: {error}</div>;
   }
@@ -108,14 +94,12 @@ export function Stats() {
         <StatsCard
           title="Total Units"
           value={globalStats?.total_units.toLocaleString() || '—'}
-          icon="⚔️"
-          trend="up"
-          trendValue="+12 this week"
+          icon="📦"
         />
         <StatsCard
           title="Total Factions"
           value={globalStats?.total_factions.toLocaleString() || '—'}
-          icon="🏛️"
+          icon="🏰"
           color="success"
         />
         <StatsCard
@@ -136,11 +120,6 @@ export function Stats() {
           icon="👽"
           color="warning"
         />
-        <StatsCard
-          title="Unique Weapons"
-          value={weaponStats?.total_weapon_entries?.toLocaleString() || '—'}
-          icon="🗡️"
-        />
       </div>
 
       {/* Faction Type Distribution */}
@@ -154,7 +133,6 @@ export function Stats() {
               const count = globalStats?.units_by_faction_type?.[type] || 0;
               const max = Math.max(...Object.values(globalStats?.units_by_faction_type || {}));
               const percent = max > 0 ? (count / max) * 100 : 0;
-
               return (
                 <div key={type} className={styles['bar-item']}>
                   <span className={styles.label}>{type}</span>
@@ -206,44 +184,6 @@ export function Stats() {
         </div>
       </section>
 
-      {/* Weapon Stats */}
-      {weaponStats && (
-        <section className={styles.section}>
-          <div className={styles['section-header']}>
-            <h2 className={styles['section-title']}>Weapon Statistics</h2>
-          </div>
-          <div className={styles['overview-grid']}>
-            <StatsCard
-              title="Ranged Weapons"
-              value={weaponStats.ranged?.count?.toLocaleString() || '—'}
-              subtitle={`Avg Damage: ${weaponStats.ranged?.avg_damage?.toFixed(1) || '—'}`}
-              icon="🔫"
-              color="info"
-            />
-            <StatsCard
-              title="Melee Weapons"
-              value={weaponStats.melee?.count?.toLocaleString() || '—'}
-              subtitle={`Avg Damage: ${weaponStats.melee?.avg_damage?.toFixed(1) || '—'}`}
-              icon="⚔️"
-              color="error"
-            />
-            <StatsCard
-              title="Highest Damage"
-              value={weaponStats.highest_damage?.[0] || '—'}
-              subtitle="Most devastating weapon"
-              icon="💥"
-              color="warning"
-            />
-            <StatsCard
-              title="Most Common"
-              value={weaponStats.most_common?.[0] || '—'}
-              subtitle="Most frequently equipped"
-              icon="⭐"
-            />
-          </div>
-        </section>
-      )}
-
       {/* Points Distribution */}
       <section className={styles.section}>
         <div className={styles['section-header']}>
@@ -275,7 +215,6 @@ export function Stats() {
             ].map((item) => {
               const max = globalStats?.total_units || 1;
               const percent = (item.count / max) * 100;
-
               return (
                 <div key={item.range} className={styles['bar-item']}>
                   <span className={styles.label}>{item.range} pts</span>

@@ -12,7 +12,6 @@ import NotFound from './pages/NotFound/NotFound';
 import StatsPage from './pages/Stats/LazyStats';
 import { UnitDetail } from './pages/UnitDetail/UnitDetail';
 import Units from './pages/Units/Units';
-import Weapons from './pages/Weapons/Weapons';
 import { store } from './store/store';
 
 const router = createBrowserRouter([
@@ -33,7 +32,6 @@ const router = createBrowserRouter([
         element: <FactionDetail />,
         errorElement: <NotFound message="Failed to load faction" />,
       },
-      { path: 'weapons', element: <Weapons /> },
       { path: 'compare', element: <Compare /> },
       {
         path: 'stats',

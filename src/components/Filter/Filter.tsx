@@ -27,12 +27,6 @@ function Filter({
       onFilterChange({ [key]: e.target.checked ? true : undefined });
     };
 
-  const handleNumberChange =
-    (key: 'points_min' | 'points_max') => (e: ChangeEvent<HTMLInputElement>) => {
-      const value = e.target.value ? parseInt(e.target.value, 10) : undefined;
-      onFilterChange({ [key]: value });
-    };
-
   const handleKeywordToggle = (keyword: string) => {
     const current = currentFilters.keyword;
     onFilterChange({ keyword: current === keyword ? undefined : keyword });
@@ -99,23 +93,86 @@ function Filter({
         {/* Points Range */}
         <div className={styles.field}>
           <label className={styles.label}>Points Range</label>
-          <div className={styles['range-inputs']}>
-            <input
-              type="number"
-              className={styles.input}
-              placeholder="Min"
-              value={currentFilters.points_min || ''}
-              onChange={handleNumberChange('points_min')}
-              min={0}
-            />
-            <input
-              type="number"
-              className={styles.input}
-              placeholder="Max"
-              value={currentFilters.points_max || ''}
-              onChange={handleNumberChange('points_max')}
-              min={0}
-            />
+          <div className={styles['range-wrapper']}>
+            {/* Min Range */}
+            <div className={styles['range-control']}>
+              <div className={styles['range-header']}>
+                <span className={styles['range-label']}>Min</span>
+                <span className={styles['range-value']}>{currentFilters.points_min ?? 0} pts</span>
+              </div>
+              <input
+                type="range"
+                className={styles['range-slider']}
+                min={0}
+                max={1000}
+                step={25}
+                value={currentFilters.points_min ?? 0}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value, 10);
+                  onFilterChange({
+                    points_min: value,
+                    ...(value > (currentFilters.points_max ?? 1000) && { points_max: value }),
+                  });
+                }}
+              />
+            </div>
+
+            {/* Max Range */}
+            <div className={styles['range-control']}>
+              <div className={styles['range-header']}>
+                <span className={styles['range-label']}>Max</span>
+                <span className={styles['range-value']}>
+                  {currentFilters.points_max ?? 1000} pts
+                </span>
+              </div>
+              <input
+                type="range"
+                className={styles['range-slider']}
+                min={0}
+                max={1000}
+                step={25}
+                value={currentFilters.points_max ?? 1000}
+                onChange={(e) => {
+                  const value = parseInt(e.target.value, 10);
+                  onFilterChange({
+                    points_max: value,
+                    ...(value < (currentFilters.points_min ?? 0) && { points_min: value }),
+                  });
+                }}
+              />
+            </div>
+          </div>
+
+          {/* Quick presets */}
+          <div className={styles['range-presets']}>
+            <button
+              type="button"
+              className={styles['preset-btn']}
+              onClick={() => onFilterChange({ points_min: 0, points_max: 100 })}
+            >
+              ≤100
+            </button>
+            <button
+              type="button"
+              className={styles['preset-btn']}
+              onClick={() => onFilterChange({ points_min: 101, points_max: 300 })}
+            >
+              101-300
+            </button>
+            <button
+              type="button"
+              className={styles['preset-btn']}
+              onClick={() => onFilterChange({ points_min: 301, points_max: 1000 })}
+            >
+              ≥301
+            </button>
+            <button
+              type="button"
+              className={styles['preset-btn']}
+              onClick={() => onFilterChange({ points_min: undefined, points_max: undefined })}
+            >
+              Any
+            </button>
           </div>
         </div>
 

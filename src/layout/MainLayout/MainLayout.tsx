@@ -7,7 +7,6 @@ export function MainLayout() {
     { path: '/', label: 'Home' },
     { path: '/units', label: 'Units' },
     { path: '/factions', label: 'Factions' },
-    { path: '/weapons', label: 'Weapons' },
     { path: '/compare', label: 'Compare' },
     { path: '/stats', label: 'Stats' },
   ];

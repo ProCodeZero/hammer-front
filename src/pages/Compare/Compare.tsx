@@ -2,7 +2,6 @@ import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import Button from '../../components/Button/Button';
-import WeaponCard from '../../components/Card/WeaponCard/WeaponCard';
 import Heading from '../../components/Heading/Heading';
 import { compareActions } from '../../store/compare.slice';
 import type { AppDispatch, RootState } from '../../store/store';
@@ -12,7 +11,6 @@ import styles from './Compare.module.css';
 export function Compare() {
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
-
   const { comparedIds } = useSelector((s: RootState) => s.compare);
   const { items: allUnits } = useSelector((s: RootState) => s.units);
 
@@ -21,7 +19,6 @@ export function Compare() {
     .filter((u): u is NonNullable<typeof u> => u !== undefined);
 
   useEffect(() => {
-    // Fetch any compared units not already loaded
     comparedIds.forEach((id) => {
       if (!allUnits.find((u) => u.id === id)) {
         dispatch(fetchUnitById(id));
@@ -29,17 +26,9 @@ export function Compare() {
     });
   }, [dispatch, comparedIds, allUnits]);
 
-  const clearCompare = () => {
-    dispatch(compareActions.clear());
-  };
-
-  const removeUnit = (id: string) => {
-    dispatch(compareActions.remove(id));
-  };
-
-  const goToUnits = () => {
-    navigate('/units');
-  };
+  const clearCompare = () => dispatch(compareActions.clear());
+  const removeUnit = (id: string) => dispatch(compareActions.remove(id));
+  const goToUnits = () => navigate('/units');
 
   if (comparedUnits.length === 0) {
     return (
@@ -64,7 +53,6 @@ export function Compare() {
           Clear All
         </button>
       </div>
-
       <div className={styles['comparison-grid']}>
         {comparedUnits.map((unit) => (
           <div key={unit.id} className={styles['unit-compare-card']}>
@@ -75,7 +63,6 @@ export function Compare() {
             >
               ✕
             </button>
-
             <div className={styles['unit-header']}>
               <h3 className={styles['unit-name']}>{unit.name}</h3>
               <p className={styles['unit-faction']}>{unit.faction}</p>
@@ -122,38 +109,10 @@ export function Compare() {
               </div>
             )}
 
-            {/* Ranged Weapons */}
-            {unit.weapons.ranged.length > 0 && (
-              <>
-                <h4 className={styles['section-title']}>Ranged Weapons</h4>
-                <div className={styles['weapons-list']}>
-                  {unit.weapons.ranged.map((weapon, idx) => (
-                    <WeaponCard key={idx} weapon={weapon} type="ranged" compact />
-                  ))}
-                </div>
-              </>
-            )}
-
-            {/* Melee Weapons */}
-            {unit.weapons.melee.length > 0 && (
-              <>
-                <h4 className={styles['section-title']} style={{ marginTop: 16 }}>
-                  Melee Weapons
-                </h4>
-                <div className={styles['weapons-list']}>
-                  {unit.weapons.melee.map((weapon, idx) => (
-                    <WeaponCard key={idx} weapon={weapon} type="melee" compact />
-                  ))}
-                </div>
-              </>
-            )}
-
             {/* Abilities */}
             {unit.abilities.length > 0 && (
               <>
-                <h4 className={styles['section-title']} style={{ marginTop: 16 }}>
-                  Abilities
-                </h4>
+                <h4 className={styles['section-title']}>Abilities</h4>
                 <div className={styles['abilities-list']}>
                   {unit.abilities.slice(0, 3).map((ability, idx) => (
                     <div key={idx} className={styles['ability-item']}>

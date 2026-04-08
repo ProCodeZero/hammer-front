@@ -11,13 +11,11 @@ interface ApiErrorResponse {
 export const ENDPOINTS = {
   ROOT: '/',
   STATS: '/stats',
-
   FACTIONS: '/factions',
   FACTION_DETAILS: (name: string) => `/factions/${encodeURIComponent(name)}/details`,
   FACTION_UNITS: (name: string) => `/factions/${encodeURIComponent(name)}/units`,
   FACTION_STATS: (name: string) => `/factions/${encodeURIComponent(name)}/stats`,
   FACTION_KEYWORDS: (name: string) => `/factions/${encodeURIComponent(name)}/keywords`,
-
   UNITS: '/units',
   UNIT_BY_ID: (id: string) => `/units/${encodeURIComponent(id)}`,
   UNITS_SEARCH: (name: string) => `/units/search/name/${encodeURIComponent(name)}`,
@@ -26,18 +24,12 @@ export const ENDPOINTS = {
   UNITS_CHEAP: '/units/cheap',
   UNITS_COUNT: '/units/count',
   UNITS_COMPARE: '/units/compare',
-
-  WEAPONS_STATS: '/weapons/stats',
-  WEAPONS_LIST: '/weapons/list',
-  WEAPONS_SEARCH: (name: string) => `/weapons/search/${encodeURIComponent(name)}`,
-
   ABILITIES_SEARCH: (term: string) => `/abilities/search/${encodeURIComponent(term)}`,
   KEYWORDS_LIST: '/abilities/keywords/list',
   KEYWORDS_SEARCH: (keyword: string) => `/abilities/keywords/search/${encodeURIComponent(keyword)}`,
   SPECIAL_RULES_LIST: '/abilities/special-rules/list',
   SPECIAL_RULES_SEARCH: (rule: string) =>
     `/abilities/special-rules/search/${encodeURIComponent(rule)}`,
-
   BULK_UNITS_BY_IDS: '/bulk/units/by-ids',
   BULK_UNITS_BY_NAMES: '/bulk/units/by-names',
   BULK_STATS_BY_KEYWORD: '/bulk/stats/by-keyword',

@@ -2,7 +2,6 @@ export interface UnitPoints {
   base: number;
   variants: Array<{ models: number; points: number }>;
 }
-
 export interface UnitStats {
   M: string;
   T: string;
@@ -11,24 +10,10 @@ export interface UnitStats {
   LD: string;
   OC: string;
 }
-
-export interface Weapon {
-  name: string;
-  Range: string;
-  A: string;
-  BS?: string;
-  WS?: string;
-  S: string;
-  AP: string;
-  D: string;
-  Keywords: string;
-}
-
 export interface Ability {
   name: string;
   description: string;
 }
-
 export interface Unit {
   name: string;
   id: string;
@@ -40,22 +25,16 @@ export interface Unit {
   stats: UnitStats;
   invuln_save: string | null;
   transport: string | null;
-  weapons: {
-    ranged: Weapon[];
-    melee: Weapon[];
-  };
   abilities: Ability[];
   special_rules: string[];
   keywords: string[];
 }
-
 export interface UnitListResponse {
   units: Unit[];
   total?: number;
   limit?: number;
   offset?: number;
 }
-
 export const normalizeUnitList = (response: unknown): UnitListResponse => {
   if (Array.isArray(response)) {
     return { units: response as Unit[], total: response.length };
