@@ -1,0 +1,91 @@
+.card {
+  background-color: var(--background-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  min-width: 200px;
+}
+
+.icon-wrapper {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--background-alt);
+  color: var(--primary-color);
+  font-size: 20px;
+}
+
+.content {
+  flex: 1;
+  min-width: 0;
+}
+
+.title {
+  color: var(--secondary-text-color);
+  font-size: 13px;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0 0 4px 0;
+}
+
+.value {
+  color: var(--primary-text-color);
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0 0 4px 0;
+  line-height: 1.2;
+}
+
+.subtitle {
+  color: var(--secondary-text-color);
+  font-size: 13px;
+  margin: 0;
+}
+
+.trend {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-top: 8px;
+}
+
+.trend.up {
+  color: var(--success-color);
+}
+
+.trend.down {
+  color: var(--error-color);
+}
+
+.trend.neutral {
+  color: var(--secondary-text-color);
+}
+
+.card.primary .icon-wrapper {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.card.success .icon-wrapper {
+  background-color: var(--success-color);
+  color: white;
+}
+
+.card.warning .icon-wrapper {
+  background-color: var(--warning-color);
+  color: var(--primary-text-color);
+}
+
+.card.error .icon-wrapper {
+  background-color: var(--error-color);
+  color: white;
+}

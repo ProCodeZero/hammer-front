@@ -1,0 +1,325 @@
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.loading,
+.error,
+.not-found {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--secondary-text-color);
+}
+
+.error {
+  color: var(--error-color);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--separator-color);
+}
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--secondary-text-color);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+
+.back-btn:hover {
+  background-color: var(--background-alt);
+  color: var(--primary-color);
+}
+
+.title-section {
+  flex: 1;
+}
+
+.unit-name {
+  color: var(--primary-text-color);
+  font-size: 32px;
+  font-weight: 700;
+  margin: 0 0 8px 0;
+  line-height: 1.2;
+}
+
+.unit-faction {
+  color: var(--secondary-text-color);
+  font-size: 16px;
+  margin: 0 0 12px 0;
+}
+
+.badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-right: 8px;
+}
+
+.badge.imperium {
+  background-color: #e8f4fd;
+  color: #1976d2;
+}
+.badge.chaos {
+  background-color: #ffebee;
+  color: #c62828;
+}
+.badge.xenos {
+  background-color: #f3e5f5;
+  color: #7b1fa2;
+}
+.badge.unaligned {
+  background-color: #e0e0e0;
+  color: #616161;
+}
+
+.unit-type {
+  color: var(--secondary-text-color);
+  font-size: 13px;
+  text-transform: capitalize;
+}
+
+.points-display {
+  text-align: right;
+}
+
+.points-value {
+  color: var(--primary-color);
+  font-size: 36px;
+  font-weight: 700;
+  margin: 0;
+  line-height: 1;
+}
+
+.points-label {
+  color: var(--secondary-text-color);
+  font-size: 14px;
+  margin: 4px 0 0 0;
+}
+
+.compare-btn {
+  margin-top: 12px;
+  width: 100%;
+}
+
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 350px;
+  gap: 24px;
+}
+
+@media (max-width: 900px) {
+  .main-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stats Panel */
+.stats-panel {
+  background-color: var(--background-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  height: fit-content;
+  position: sticky;
+  top: 20px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-box {
+  text-align: center;
+  padding: 12px 8px;
+  background-color: var(--background-alt);
+  border-radius: 10px;
+}
+
+.stat-box.highlight {
+  background-color: var(--primary-color);
+  color: white;
+}
+
+.stat-box.highlight .stat-label {
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.stat-box.highlight .stat-value {
+  color: white;
+}
+
+.stat-label {
+  display: block;
+  color: var(--secondary-text-color);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+}
+
+.stat-value {
+  display: block;
+  color: var(--primary-text-color);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.special-traits {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--separator-color);
+}
+
+.trait-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.trait-icon {
+  font-size: 16px;
+}
+
+.composition {
+  font-size: 14px;
+  color: var(--secondary-text-color);
+}
+
+.composition strong {
+  color: var(--primary-text-color);
+}
+
+/* Content Sections */
+.content-section {
+  background-color: var(--background-color);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 20px;
+}
+
+.section-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--separator-color);
+}
+
+.section-title {
+  color: var(--primary-text-color);
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.section-toggle {
+  background: none;
+  border: none;
+  color: var(--primary-color);
+  font-size: 13px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.weapons-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.weapons-grid.compact {
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+}
+
+.abilities-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.ability-card {
+  padding: 16px;
+  background-color: var(--background-alt);
+  border-radius: 12px;
+  border-left: 3px solid var(--primary-color);
+}
+
+.ability-name {
+  color: var(--primary-text-color);
+  font-size: 15px;
+  font-weight: 600;
+  margin: 0 0 6px 0;
+}
+
+.ability-desc {
+  color: var(--secondary-text-color);
+  font-size: 14px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.special-rules,
+.keywords-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.rule-tag,
+.keyword-tag {
+  padding: 6px 12px;
+  background-color: var(--background-alt);
+  border: 1px solid var(--separator-color);
+  border-radius: 20px;
+  font-size: 13px;
+  color: var(--primary-text-color);
+}
+
+.points-variants {
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--separator-color);
+}
+
+.variant-item {
+  display: flex;
+  justify-content: space-between;
+  padding: 6px 0;
+  font-size: 14px;
+}
+
+.variant-item span:first-child {
+  color: var(--secondary-text-color);
+}
+
+.variant-item span:last-child {
+  color: var(--primary-color);
+  font-weight: 600;
+}

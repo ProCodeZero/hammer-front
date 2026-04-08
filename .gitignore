@@ -1,0 +1,76 @@
+# Node / Bun / OS
+node_modules/
+.pnp/
+.pnp.js
+.DS_Store
+Thumbs.db
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-lock.yaml
+
+# Bun
+bun.lockb
+
+# Vite / build outputs
+dist/
+.build/
+out/
+.vite/
+
+# TypeScript
+*.tsbuildinfo
+
+# Environment files
+.env
+.env.*.local
+.env.local
+.env.test
+.env.production.local
+
+# Editor / IDE
+.vscode/
+.idea/
+*.sublime-workspace
+*.sublime-project
+
+# Logs
+logs/
+*.log
+
+# Coverage
+coverage/
+.nyc_output/
+
+# OS-specific
+*.swp
+*.tmp
+
+# Optional: lockfile for other package managers (ignore if you use them)
+package-lock.json
+yarn.lock
+
+# Optional: local config
+.vscode/*
+!.vscode/settings.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# Optional: local database / build caches
+*.sqlite
+*.db
+.cache/
+
+# Bun scripts/build artifacts (if any)
+.bun/
+bun-out/
+
+# Ignore local TypeScript artifacts
+/dist-types/
+
+# JetBrains
+*.iml
+.idea/
+
+# Allow keeping README or other project files tracked
+!.gitignore
