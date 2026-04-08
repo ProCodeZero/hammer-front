@@ -89,3 +89,9 @@
   background-color: var(--error-color);
   color: white;
 }
+.card.primary:hover,
+.card.success:hover,
+.card.warning:hover,
+.card.error:hover {
+  cursor: default;
+}

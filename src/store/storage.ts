@@ -1,6 +1,8 @@
-import { COMPARE_PERSISTENT_STATE } from './compare.slice';
-import { FACTIONS_PERSISTENT_STATE } from './factions.slice';
-import { UNITS_PERSISTENT_STATE } from './units.slice';
+import {
+  COMPARE_PERSISTENT_STATE,
+  FACTIONS_PERSISTENT_STATE,
+  UNITS_PERSISTENT_STATE,
+} from './storage-keys';
 
 export function loadState<T>(key: string): T | undefined {
   try {

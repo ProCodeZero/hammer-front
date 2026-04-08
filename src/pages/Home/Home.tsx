@@ -57,7 +57,9 @@ export function Home() {
 
   const handleRandomUnit = async () => {
     try {
-      const { data } = await axios.get<Unit>(`${API_BASE_URL}${ENDPOINTS.UNITS_RANDOM}`);
+      const { data } = await axios.get<Unit>(`${API_BASE_URL}${ENDPOINTS.UNITS_RANDOM}`, {
+        params: { _t: Date.now() },
+      });
       navigate(`/units/${data.id}`);
     } catch (error) {
       console.error('Failed to fetch random unit:', error);

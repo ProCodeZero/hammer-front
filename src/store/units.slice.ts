@@ -4,8 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { API_BASE_URL, ENDPOINTS } from '../helpers/api';
 import { normalizeUnitList, type Unit } from '../interfaces/unit.interface';
 import { loadState } from './storage';
-
-export const UNITS_PERSISTENT_STATE = 'openhammer_units';
+import { UNITS_PERSISTENT_STATE } from './storage-keys';
 
 export interface UnitsFilters {
   name?: string;
@@ -161,6 +160,8 @@ export const unitsSlice = createSlice({
         const existing = state.items.findIndex((u) => u.id === action.payload.id);
         if (existing >= 0) {
           state.items[existing] = action.payload;
+        } else {
+          state.items.push(action.payload);
         }
       })
       .addCase(fetchUnitById.rejected, (state, action) => {

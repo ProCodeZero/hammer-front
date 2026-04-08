@@ -58,6 +58,7 @@
 }
 
 .faction-stat-card:hover {
+  cursor: default;
   transform: translateY(-2px);
 }
 

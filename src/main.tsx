@@ -28,7 +28,11 @@ const router = createBrowserRouter([
         errorElement: <NotFound message="Unit not found" />,
       },
       { path: 'factions', element: <Factions /> },
-      { path: 'factions/:name', element: <FactionDetail /> },
+      {
+        path: 'factions/:name',
+        element: <FactionDetail />,
+        errorElement: <NotFound message="Failed to load faction" />,
+      },
       { path: 'weapons', element: <Weapons /> },
       { path: 'compare', element: <Compare /> },
       {

@@ -47,7 +47,7 @@ export function Search({
         onKeyDown={handleKeyDown}
         {...props}
       />
-      <span className={styles.icon}>Search</span>
+      <span className={styles.icon}></span>
 
       {value && !isLoading && (
         <button

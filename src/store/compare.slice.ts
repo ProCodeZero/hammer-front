@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
+import { createSlice } from '@reduxjs/toolkit';
 import { loadState, saveState } from './storage';
-
-export const COMPARE_PERSISTENT_STATE = 'openhammer_compare';
+import { COMPARE_PERSISTENT_STATE } from './storage-keys';
 
 export interface CompareState {
   comparedIds: string[];

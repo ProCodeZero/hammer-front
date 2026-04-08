@@ -24,7 +24,7 @@ export function NotFound({ message }: NotFoundProps) {
       <div className={styles.actions}>
         <Button onClick={() => navigate(-1)}>← Go Back</Button>
         <Button appearance="outline" onClick={() => navigate('/')}>
-          🏠 Home
+          Home
         </Button>
         <Button appearance="ghost" onClick={() => navigate('/units')}>
           Browse Units

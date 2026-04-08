@@ -60,24 +60,36 @@ export function Weapons() {
         setWeaponStats(statsRes.data);
 
         // Fetch details for each weapon
-        const weaponNames = weaponsRes.data.slice(0, limit);
+        const rawWeapons = weaponsRes.data;
+        const weaponsArray = Array.isArray(rawWeapons)
+          ? rawWeapons
+          : rawWeapons?.weapons || rawWeapons?.data || rawWeapons?.items || [];
+
+        const weaponNames = weaponsArray.slice(0, limit);
         const detailsPromises = weaponNames.map((name: string) =>
           axios.get(`${API_BASE_URL}${ENDPOINTS.WEAPONS_SEARCH(name)}`),
         );
 
         const detailsResults = await Promise.all(detailsPromises);
         const enrichedWeapons = detailsResults.map((res, idx) => {
-          const units = res.data || [];
+          // ✅ Safely extract units array from various API response shapes
+          const rawData = res.data;
+          const units: Unit[] = Array.isArray(rawData)
+            ? rawData
+            : rawData?.units || rawData?.data || rawData?.items || [];
+
           const firstUnit = units[0];
+          const rangedWeapons = firstUnit?.weapons?.ranged || [];
+          const meleeWeapons = firstUnit?.weapons?.melee || [];
           const weapon =
-            firstUnit?.weapons?.ranged?.find((w: Weapon) => w.name === weaponNames[idx]) ||
-            firstUnit?.weapons?.melee?.find((w: Weapon) => w.name === weaponNames[idx]);
+            rangedWeapons.find((w: Weapon) => w.name === weaponNames[idx]) ||
+            meleeWeapons.find((w: Weapon) => w.name === weaponNames[idx]);
 
           return {
             name: weaponNames[idx],
             type:
               weaponType === 'all'
-                ? firstUnit?.weapons?.ranged?.some((w: Weapon) => w.name === weaponNames[idx])
+                ? rangedWeapons.some((w: Weapon) => w.name === weaponNames[idx])
                   ? 'ranged'
                   : 'melee'
                 : weaponType,

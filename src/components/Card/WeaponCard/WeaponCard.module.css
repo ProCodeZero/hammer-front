@@ -5,6 +5,10 @@
   border-left: 3px solid var(--primary-color);
 }
 
+.card:hover {
+  cursor: default;
+}
+
 .card.melee {
   border-left-color: #c62828;
 }

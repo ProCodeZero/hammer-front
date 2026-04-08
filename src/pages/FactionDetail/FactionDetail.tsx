@@ -30,14 +30,17 @@ export function FactionDetail() {
         const [detailsRes, statsRes, unitsRes] = await Promise.all([
           axios.get<FactionDetails>(`${API_BASE_URL}${ENDPOINTS.FACTION_DETAILS(name)}`),
           axios.get<FactionStats>(`${API_BASE_URL}${ENDPOINTS.FACTION_STATS(name)}`),
-          axios.get<{ units: Unit[] }>(`${API_BASE_URL}${ENDPOINTS.FACTION_UNITS(name)}`, {
+          axios.get(`${API_BASE_URL}${ENDPOINTS.FACTION_UNITS(name)}`, {
             params: { limit: 12 },
           }),
         ]);
 
         setFaction(detailsRes.data);
         setFactionStats(statsRes.data);
-        setUnits(unitsRes.data.units);
+
+        const rawUnits = unitsRes.data;
+        const safeUnits = Array.isArray(rawUnits) ? rawUnits : rawUnits?.units || [];
+        setUnits(safeUnits);
       } catch (err) {
         setError('Failed to load faction data');
         console.error(err);
@@ -90,15 +93,15 @@ export function FactionDetail() {
 
           <div className={styles['faction-stats']}>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats.avg_points.toFixed(0)}</div>
+              <div className={styles.value}>{faction.stats?.avg_points?.toFixed(0) ?? '—'}</div>
               <div className={styles.label}>Avg Points</div>
             </div>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats.avg_toughness}</div>
+              <div className={styles.value}>{faction.stats?.avg_toughness ?? '—'}</div>
               <div className={styles.label}>Avg Toughness</div>
             </div>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats.avg_wounds}</div>
+              <div className={styles.value}>{faction.stats?.avg_wounds ?? '—'}</div>
               <div className={styles.label}>Avg Wounds</div>
             </div>
           </div>
@@ -122,15 +125,23 @@ export function FactionDetail() {
           </section>
 
           {/* Keywords */}
-          {faction.keywords.length > 0 && (
+          {faction.keywords?.length > 0 && (
             <section className={styles.section}>
               <h2 className={styles['section-title']}>Keywords</h2>
               <div className={styles['keywords-list']}>
-                {faction.keywords.slice(0, 20).map((kw) => (
-                  <span key={kw.keyword} className={styles['keyword-tag']}>
-                    {kw.keyword} ({kw.count})
+                {faction.keywords
+                  .slice(0, 20)
+                  .filter((kw) => kw.keyword?.trim())
+                  .map((kw) => (
+                    <span key={kw.keyword} className={styles['keyword-tag']}>
+                      {kw.keyword} ({kw.count})
+                    </span>
+                  ))}
+                {faction.keywords.filter((kw) => kw.keyword?.trim()).length === 0 && (
+                  <span style={{ color: 'var(--secondary-text-color)', fontStyle: 'italic' }}>
+                    No keywords available
                   </span>
-                ))}
+                )}
               </div>
             </section>
           )}
@@ -176,9 +187,13 @@ export function FactionDetail() {
                 gap: 16,
               }}
             >
-              {units.map((unit) => (
-                <UnitCard key={unit.id} unit={unit} />
-              ))}
+              {units && units.length > 0 ? (
+                units.map((unit) => <UnitCard key={unit.id} unit={unit} />)
+              ) : (
+                <p style={{ color: 'var(--secondary-text-color)', gridColumn: '1 / -1' }}>
+                  No units available for this faction
+                </p>
+              )}
             </div>
           </section>
         </div>

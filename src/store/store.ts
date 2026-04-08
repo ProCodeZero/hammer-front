@@ -1,8 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
 import compareReducer from './compare.slice';
-import factionsReducer, { FACTIONS_PERSISTENT_STATE } from './factions.slice';
+import factionsReducer from './factions.slice';
 import { saveState } from './storage';
-import unitsReducer, { UNITS_PERSISTENT_STATE } from './units.slice';
+import { FACTIONS_PERSISTENT_STATE, UNITS_PERSISTENT_STATE } from './storage-keys';
+import unitsReducer from './units.slice';
 
 export const store = configureStore({
   reducer: {

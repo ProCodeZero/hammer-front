@@ -4,8 +4,7 @@ import axios, { AxiosError } from 'axios';
 import { API_BASE_URL, ENDPOINTS } from '../helpers/api';
 import type { FactionDetails, FactionSummary } from '../interfaces/faction.interface';
 import { loadState } from './storage';
-
-export const FACTIONS_PERSISTENT_STATE = 'openhammer_factions';
+import { FACTIONS_PERSISTENT_STATE } from './storage-keys';
 
 export interface FactionsState {
   items: FactionSummary[];
