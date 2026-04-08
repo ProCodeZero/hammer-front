@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Button from '../../components/Button/Button';
 import UnitCard from '../../components/Card/UnitCard/UnitCard';
@@ -7,6 +7,19 @@ import Heading from '../../components/Heading/Heading';
 import { API_BASE_URL, ENDPOINTS } from '../../helpers/api';
 import type { FactionDetails, FactionStats, Unit } from '../../interfaces';
 import styles from './FactionDetail.module.css';
+
+const parseStatValue = (value: string | undefined): number | null => {
+  if (!value) return null;
+  const num = parseInt(value, 10);
+  if (!isNaN(num)) return num;
+  const diceMatch = value.match(/^(\d+)D(\d+)$/i);
+  if (diceMatch) {
+    const rolls = parseInt(diceMatch[1], 10);
+    const sides = parseInt(diceMatch[2], 10);
+    return rolls * ((1 + sides) / 2);
+  }
+  return null;
+};
 
 export function FactionDetail() {
   const { name } = useParams<{ name: string }>();
@@ -52,6 +65,33 @@ export function FactionDetail() {
     fetchData();
   }, [name, navigate]);
 
+  const calculatedStats = useMemo(() => {
+    if (!units || units.length === 0) return null;
+
+    const validPoints = units
+      .map((u) => u.points?.base)
+      .filter((p): p is number => typeof p === 'number' && !isNaN(p));
+
+    const validToughness = units
+      .map((u) => parseStatValue(u.stats?.T))
+      .filter((t): t is number => t !== null);
+
+    const validWounds = units
+      .map((u) => parseStatValue(u.stats?.W))
+      .filter((w): w is number => w !== null);
+
+    return {
+      avg_points:
+        validPoints.length > 0 ? validPoints.reduce((a, b) => a + b, 0) / validPoints.length : 0,
+      avg_toughness:
+        validToughness.length > 0
+          ? validToughness.reduce((a, b) => a + b, 0) / validToughness.length
+          : 0,
+      avg_wounds:
+        validWounds.length > 0 ? validWounds.reduce((a, b) => a + b, 0) / validWounds.length : 0,
+    };
+  }, [units]);
+
   const goBack = () => navigate(-1);
 
   if (loading) {
@@ -93,15 +133,22 @@ export function FactionDetail() {
 
           <div className={styles['faction-stats']}>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats?.avg_points?.toFixed(0) ?? '—'}</div>
+              <div className={styles.value}>
+                {(faction.stats?.avg_points ?? calculatedStats?.avg_points)?.toFixed(0) ?? '—'}
+              </div>
               <div className={styles.label}>Avg Points</div>
             </div>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats?.avg_toughness ?? '—'}</div>
+              <div className={styles.value}>
+                {(faction.stats?.avg_toughness ?? calculatedStats?.avg_toughness)?.toFixed(1) ??
+                  '—'}
+              </div>
               <div className={styles.label}>Avg Toughness</div>
             </div>
             <div className={styles['stat-card']}>
-              <div className={styles.value}>{faction.stats?.avg_wounds ?? '—'}</div>
+              <div className={styles.value}>
+                {(faction.stats?.avg_wounds ?? calculatedStats?.avg_wounds)?.toFixed(1) ?? '—'}
+              </div>
               <div className={styles.label}>Avg Wounds</div>
             </div>
           </div>
