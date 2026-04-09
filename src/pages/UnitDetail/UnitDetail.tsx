@@ -22,10 +22,10 @@ export function UnitDetail() {
   });
 
   useEffect(() => {
-    if (id && !unit && !loading) {
+    if (id && !unit && !loading && !error) {
       dispatch(fetchUnitById(id));
     }
-  }, [dispatch, id, unit, loading]);
+  }, [dispatch, id, unit, loading, error]);
 
   const toggleCompare = () => {
     if (!unit) return;
@@ -43,6 +43,16 @@ export function UnitDetail() {
 
   if (loading && !unit) {
     return <div className={styles.loading}>Loading unit...</div>;
+  }
+  if (error === 'NOT_FOUND') {
+    return (
+      <div className={styles['not-found']}>
+        <Heading>Unit Not Found</Heading>
+        <p style={{ marginTop: 16 }}>
+          <Link to="/units">← Back to Units</Link>
+        </p>
+      </div>
+    );
   }
   if (error) {
     return <div className={styles.error}>Error: {error}</div>;

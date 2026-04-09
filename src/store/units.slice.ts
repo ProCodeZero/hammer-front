@@ -166,7 +166,8 @@ export const unitsSlice = createSlice({
       })
       .addCase(fetchUnitById.rejected, (state, action) => {
         state.loading = false;
-        state.error = action.payload as string;
+        const errorMsg = action.payload as string;
+        state.error = errorMsg.includes('404') ? 'NOT_FOUND' : errorMsg;
       });
   },
 });

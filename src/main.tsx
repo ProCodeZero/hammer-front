@@ -20,19 +20,31 @@ const router = createBrowserRouter([
     element: <MainLayout />,
     children: [
       { index: true, element: <Home /> },
-      { path: 'units', element: <Units /> },
+      {
+        path: 'units',
+        element: <Units />,
+        errorElement: <NotFound message="Failed to load units" />,
+      },
       {
         path: 'units/:id',
         element: <UnitDetail />,
         errorElement: <NotFound message="Unit not found" />,
       },
-      { path: 'factions', element: <Factions /> },
+      {
+        path: 'factions',
+        element: <Factions />,
+        errorElement: <NotFound message="Failed to load faction" />,
+      },
       {
         path: 'factions/:name',
         element: <FactionDetail />,
-        errorElement: <NotFound message="Failed to load faction" />,
+        errorElement: <NotFound message="Faction not found" />,
       },
-      { path: 'compare', element: <Compare /> },
+      {
+        path: 'compare',
+        element: <Compare />,
+        errorElement: <NotFound message="Failed to load compare page" />,
+      },
       {
         path: 'stats',
         element: (
@@ -40,6 +52,7 @@ const router = createBrowserRouter([
             <StatsPage />
           </Suspense>
         ),
+        errorElement: <NotFound message="Failed to load stats" />,
       },
     ],
   },
