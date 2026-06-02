@@ -1,4 +1,4 @@
-export const API_BASE_URL = 'https://openhammer-api-1.onrender.com';
+export const API_BASE_URL = 'https://openhammer-api-cs1y.onrender.com';
 export const API_TIMEOUT = 10000;
 
 interface ApiErrorResponse {
